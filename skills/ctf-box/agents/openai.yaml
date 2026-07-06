@@ -1,0 +1,7 @@
+interface:
+  display_name: "CTF Box"
+  short_description: "Handle CTF box and lab targets"
+  default_prompt: "Use $ctf-box to enumerate a box target, build hypotheses, and keep a concise exploitation trail."
+
+policy:
+  allow_implicit_invocation: true

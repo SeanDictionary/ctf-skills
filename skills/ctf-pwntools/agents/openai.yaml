@@ -1,0 +1,7 @@
+interface:
+  display_name: "CTF Pwntools"
+  short_description: "Pwntools exploit scripting workflow"
+  default_prompt: "Use $ctf-pwntools to scaffold or clean up a pwntools exploit with clear local/remote startup, leak handling, and payload stages."
+
+policy:
+  allow_implicit_invocation: true

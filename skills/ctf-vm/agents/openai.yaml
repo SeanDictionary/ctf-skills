@@ -1,0 +1,7 @@
+interface:
+  display_name: "CTF VM"
+  short_description: "Automate Linux CTF box workflows"
+  default_prompt: "Use $ctf-vm to enumerate a Linux CTF machine, build hypotheses, and keep a concise exploitation trail."
+
+policy:
+  allow_implicit_invocation: true

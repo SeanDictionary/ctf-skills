@@ -1,0 +1,7 @@
+interface:
+  display_name: "CTF Forensics"
+  short_description: "Handle file and artifact forensics tasks"
+  default_prompt: "Use $ctf-forensics to inspect artifacts, recover key evidence, and explain the path to the flag."
+
+policy:
+  allow_implicit_invocation: true

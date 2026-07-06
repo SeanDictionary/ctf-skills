@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pwn Local Analysis"
+  short_description: "Local ELF, libc, and ROP workflow"
+  default_prompt: "When a local Linux pwn binary or libc needs analysis, prefer the Windows-native toolchain on this host: file, checksec.exe, readelf, objdump, strings, ROPgadget, and local pwntools. Switch to Linux-side execution only when real runtime debugging is required, and if sandbox restrictions block local tools or WSL access, ask the user for global permissions and retry."

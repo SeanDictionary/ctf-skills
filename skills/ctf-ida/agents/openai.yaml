@@ -1,0 +1,7 @@
+interface:
+  display_name: "CTF IDA"
+  short_description: "IDA Pro and MCP-driven reverse analysis"
+  default_prompt: "Use $ctf-ida to analyze a local binary through IDA Pro, confirm the MCP server is ready, and drive the reverse workflow from the live IDB."
+
+policy:
+  allow_implicit_invocation: true

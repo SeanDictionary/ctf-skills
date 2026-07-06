@@ -1,0 +1,7 @@
+interface:
+  display_name: "CTF Solver"
+  short_description: "Route and solve multi-category CTF problems"
+  default_prompt: "Use $ctf-solver to classify a CTF task, choose the right specialist path, and maintain a concise solving log."
+
+policy:
+  allow_implicit_invocation: true

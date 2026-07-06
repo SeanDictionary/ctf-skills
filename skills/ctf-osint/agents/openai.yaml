@@ -1,0 +1,7 @@
+interface:
+  display_name: "CTF OSINT"
+  short_description: "Handle OSINT and attribution challenges"
+  default_prompt: "Use $ctf-osint to structure an OSINT investigation, verify identities, and keep a clean evidence trail."
+
+policy:
+  allow_implicit_invocation: true

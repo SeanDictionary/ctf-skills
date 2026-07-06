@@ -1,0 +1,4 @@
+interface:
+  display_name: "CTF Experience"
+  short_description: "Reusable CTF pivot rules and heuristics."
+  default_prompt: "Capture stable CTF lessons as reusable pivot rules, heuristics, and dead-loop breakers."
