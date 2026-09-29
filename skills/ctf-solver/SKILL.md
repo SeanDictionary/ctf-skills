@@ -1,6 +1,6 @@
 ---
 name: ctf-solver
-description: Use when a CTF challenge is mixed, unclear, or spans multiple domains and pi should act as a general controller before handing off to a more specific CTF skill. Best for prompts that start from a file, archive, URL, pcap, binary, screenshot, source snippet, challenge text, or partial notes and need challenge classification, workflow selection, evidence tracking, and specialist routing across web, pwn, reverse, crypto, misc, forensics, OSINT, or box-style machine solving.
+description: Use when a CTF challenge is mixed, unclear, or spans multiple domains and pi should act as a general controller before handing off to a more specific CTF skill. Best for prompts that start from a file, archive, URL, pcap, binary, screenshot, source snippet, challenge text, or partial notes and need challenge classification, workflow selection, evidence tracking, and specialist routing across web, pwn, reverse, crypto, misc, forensics, OSINT, blockchain, AI, or box-style machine solving.
 ---
 
 # CTF Solver
@@ -18,6 +18,7 @@ Act as the first-pass CTF controller. Classify the challenge, choose the right s
 
 ## Routing Contract
 
+- If the task is an intentional lab box solve (HackMyVM, HTB, VulnHub, practice machines), route to `$ctf-box`.
 - If the task is a Linux box, service target, or foothold-to-root chain, route to `$ctf-vm`.
 - If the task is a web app, API, upload flow, template, JWT, request log, or source-backed web challenge, route to `$ctf-web`.
 - If the task is an exploit-development binary, route to `$ctf-pwn`.
@@ -25,6 +26,8 @@ Act as the first-pass CTF controller. Classify the challenge, choose the right s
 - If the task is about ciphers, algebra, encodings, signatures, RNGs, or protocol math, route to `$ctf-crypto`.
 - If the task is artifact-heavy or evidence-driven, route to `$ctf-forensics`.
 - If the task depends on external identities, internet sources, timelines, or attribution, route to `$ctf-osint`.
+- If the task is a smart-contract or on-chain challenge, route to `$ctf-blockchain`.
+- If the task involves LLM prompts, AI agents, model artifacts, or adversarial ML, route to `$ctf-ai`.
 - If nothing cleanly fits or the challenge is intentionally weird, route to `$ctf-misc` first.
 
 ## Core Workflow

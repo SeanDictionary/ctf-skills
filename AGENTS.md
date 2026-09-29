@@ -24,6 +24,8 @@
   - Misc 用 `$ctf-misc`
   - Forensics 用 `$ctf-forensics`
   - OSINT 用 `$ctf-osint`
+  - Blockchain 用 `$ctf-blockchain`
+  - AI / 大模型安全 用 `$ctf-ai`
 
 只有在具体工具被明确需要时，才直接进入工具型 skill。
 题型判断完成后，再按需要引入 helper skill；不要一开始无差别上工具。
@@ -35,6 +37,7 @@
 - 不得根据题目特征推测具体比赛或题目来源并进行针对性检索。
 - 可以搜索与题目涉及的“通用技术、算法、漏洞类型”相关的资料。
 - 搜索内容必须是“通用知识”，不得包含任何当前题目的特定数据或特征
+- **OSINT 题目例外**：题目给出的线索实体本身（用户名、域名、图片、公司名、电话、坐标等）就是检索对象，允许以此类线索联网检索。但仍禁止搜索题目名称、比赛名称、flag 格式、题解或现成答案。
 
 ## 文件夹规范约束 (Folder Convention)
 
@@ -44,7 +47,7 @@
 
 - 解题根目录：**当前比赛文件夹**。工作区采用“母库 + 多比赛”布局：母库 `/root/ctf` 下存放 `.ctf-skills/`（规范母本 `AGENTS.md` 与技能 `skills/`，由用户以 git 自行管理）、跨比赛共享工具区 `tools/` 和比赛模板 `_template/`，母库本身不直接解题；每场比赛通过 `cp -a /root/ctf/_template /root/ctf/<比赛名>` 启动（必须用 `-a` 保留软链，普通 `-r` 会解引用软链把整套技能复制进比赛目录）。比赛目录内三条软链：`AGENTS.md -> ../.ctf-skills/AGENTS.md`、`.pi -> ../.ctf-skills`、`tools -> ../tools`，修改母本对所有比赛即时生效。所有解题产物都落在当前比赛文件夹之内，不要写到母库其它位置、运行路径或其它盘。
 - 类别子目录（与 ctf-* 技能一一对应）：
-  - `web/` `pwn/` `reverse/` `crypto/` `misc/` `forensics/` `osint/` `box/` `vm/` `blockchain/` `retro/`
+  - `web/` `pwn/` `reverse/` `crypto/` `misc/` `forensics/` `osint/` `box/` `vm/` `blockchain/` `ai/` `retro/`
   - **禁止预先创建空的类别文件夹**。只有当该类别下确实有题目落位时才创建对应目录；没有题目的分类不保留空文件夹。解题完成后如果某类别下已无题目，也不需要补建空目录占位。
   - 无法判定类别时，先创建 `misc/_staging/` 放入题目，类别明确后立刻把整个题目文件夹移动（`mv`）到对应类别目录下。
 - 每道题一个独立文件夹：`<类别>/<题目名>/`。题目名用题目原名或用户给定的名字，去除空格与特殊字符。
@@ -163,6 +166,7 @@ platform/
 - 未安装（用到时先问用户再装，不要假设存在）：`gdb`、`nmap`、`sqlmap`、`nikto`、`dirsearch`、`tshark`/`wireshark`、`binwalk`、`foremost`、`exiftool`、`volatility`、`ghidra`、`radare2`、`ROPgadget`、`checksec`、`pwntools`、`ida`/IDA MCP、`go`/`rust`/`cargo`。
 - SageMath / CTF Python 一律走 `conda run -n sage10.9 ...`（见 `$ctf-sage`），不要直接 `sage`。
 - 技能母本位于母库 `.ctf-skills/skills/`；比赛目录内通过软链 `.pi -> ../.ctf-skills` 使其以项目级 `.pi/skills/` 的形式生效（仅在该比赛目录内生效）。技能中引用脚本时用相对路径（如 `scripts/xxx.py`），由 pi 解析到该技能目录，不要写全局或绝对路径。
+- **外部 helper 技能按需安装**（用户已预授权）：解题中需要某个未安装的第三方技能时，克隆到 `.ctf-skills/.external/<name>/`；若仓库是嵌套布局（技能在 `<仓库>/skills/<名>/`），在 `skills/` 下建软链暴露（`ln -s ../.external/<name>/skills/<名> skills/<名>`），并在 `.ctf-skills/.gitignore` 追加该软链条目（外部技能不入库）。无需事先询问；依赖优先用技能自管机制（如 geo-sleuth 的 `uv run`），否则按正常包管理约定落位（tools/pylibs 或 sage env，禁止全局安装）；安装后在 steps.md 记录来源与用途。
 - 工具型 skill 里出现的命令均为示例路径，实际以 PATH 中的可执行文件为准；缺失时先 `command -v <tool>` 确认，再按下文“包管理与工具安装约定”安装。
 
 ## 包管理与工具安装约定 (Package & Tool Install Policy)

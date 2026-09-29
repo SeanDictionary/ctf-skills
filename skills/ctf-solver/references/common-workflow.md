@@ -11,7 +11,7 @@
 
 Follow the global Folder Convention in `AGENTS.md`. Concretely on intake:
 
-- Decide the category and create `<solving-root>/<category>/<challenge-name>/` (categories: web, pwn, reverse, crypto, misc, forensics, osint, box, vm, blockchain, retro; unknown -> `misc/_staging/`).
+- Decide the category and create `<solving-root>/<category>/<challenge-name>/` (categories: web, pwn, reverse, crypto, misc, forensics, osint, box, vm, blockchain, ai, retro; unknown -> `misc/_staging/`).
 - If the supplied files live outside the solving root, **copy** them into the challenge folder (`cp -a`) and solve on the copy — never mutate the source.
 - Initialize `steps.md` inside the challenge folder (not in the solving root or run path).
 - Put large / scratch intermediate artifacts under `<challenge>/.cache/` or the global `.cache/`.
