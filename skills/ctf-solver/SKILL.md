@@ -29,6 +29,7 @@ Act as the first-pass CTF controller. Classify the challenge, choose the right s
 - If the task is a smart-contract or on-chain challenge, route to `$ctf-blockchain`.
 - If the task involves LLM prompts, AI agents, model artifacts, or adversarial ML, route to `$ctf-ai`.
 - If nothing cleanly fits or the challenge is intentionally weird, route to `$ctf-misc` first.
+- If the challenge is a dynamic/environment challenge (docker, address obtainable only via platform `startChallenge`/`instance.py addr`), the solving agent must follow the container lifecycle discipline in AGENTS.md (查槽位 → 启动登记 → 用完即停) and read the 容器管理 section of `$ctf-platform` before attacking — regardless of which specialist skill handles the challenge.
 
 ## Core Workflow
 

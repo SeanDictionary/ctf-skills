@@ -34,17 +34,28 @@ Identify which shape the challenge has before choosing techniques:
   - Inspect with `pickletools.dis` before anything else; look for `__reduce__`, `os.system`, `eval`, suspicious globals.
   - A pickle gadget chain is often the intended solve (code execution on load) — extract it statically.
   - If flags hide in tensors, parse the zip/protobuf container directly instead of importing the framework.
-- `safetensors` / `ONNX` / `GGUF`: metadata inspection first; look for hidden strings in metadata, tokenizer merges, or quantized weight anomalies.
+  - No torch installed? A ~30-line numpy `Unpickler` subclass (`find_class` shims for `OrderedDict` / `FloatStorage` / `_rebuild_tensor_v2`, `persistent_load` reading `data/N` from the zip) fully restores state dicts — never install torch just to read weights.
 - Weight stego: compare against the published upstream weights when the base model is identifiable; diffs often carry the payload.
+- `safetensors` / `ONNX` / `GGUF`: metadata inspection first; look for hidden strings in metadata, tokenizer merges, or quantized weight anomalies.
+- Trained-classifier signal: if forwarding inputs gives near-1.0 confidence or a ~2x top1/top2 margin, the model was trained as a one-shot decoder — feed each token / each input unit and read argmax as data, not as noise.
+- Unknown output charset: align the argmax sequence against the known flag prefix (`0xGame{` …) to reverse the class-to-char mapping; common charsets are `digits+lower+upper+punctuation` (output dim = 94 + padding) or plain `ord(c) - 32`.
 - Sandbox rule: loading anything pickle-based happens only in a disposable environment and only after the user agrees.
 
-## 5. Adversarial Inputs
+## 5. Pickle-Checker Bypass (upload-the-pth services)
+
+- When a service "safely checks" uploaded model files, black-box the checker with a control matrix: same bytes different zip metadata (STORED vs DEFLATED), same metadata different content (nested zip vs bare pickle vs text) — this isolates the detection variable in few requests.
+- Align server error text with upstream framework source (e.g. torch `inline_container.cc` "file in archive is not in a subdirectory" names the zip's entry 0) to reconstruct exactly what the server does with the file.
+- Magic-byte pickle detection (`content.startswith(b'\x80')`) is bypassed by **protocol 0 pickles** — pure ASCII, no PROTO opcode, still fully unpicklable by `pickle.Unpickler` / `torch.load`.
+- Deadly server pattern: `weights_only=True` load fails → falls back to unrestricted "compatibility mode" load. Trigger it with any non-whitelisted opcode (proto-0 works), then use `__reduce__ = (eval, expr)`; the eval return value becomes the "loaded model" and is echoed in the response — RCE with built-in output channel, no exfiltration needed.
+- Keep valid torch-zip structure (`<root>/data.pkl`, `version`, `byteorder`, …) and DEFLATE all entries if the checker requires it.
+
+## 6. Adversarial Inputs
 
 - White-box: use gradients (PGD / FGSM variants) under the stated budget and metric.
 - Black-box: transfer attacks from a local surrogate, or query-efficient methods if a query budget exists.
 - Check the win condition precisely: top-1 flip, target-class misclassification, or confidence threshold — each changes the objective.
 
-## 6. Logging and Handoff
+## 7. Logging and Handoff
 
 - Every payload attempt goes into `steps.md` as goal, payload, and observed result.
 - Record endpoint behavior changes (guards tightening after attempts) — they change the next strategy.
