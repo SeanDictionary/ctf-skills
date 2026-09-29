@@ -2,11 +2,9 @@
 from __future__ import annotations
 
 import argparse
-import glob
 import importlib.util
 import json
 import os
-import shlex
 import shutil
 import subprocess
 from collections import Counter
@@ -114,58 +112,37 @@ def factor_via_factordb(n: int, refine_bits: int) -> Dict[str, object]:
         }
 
 
-def unique_existing(paths: Iterable[str]) -> List[str]:
-    seen = set()
-    out = []
-    for path in paths:
-        if not path:
-            continue
-        norm = os.path.normpath(path)
-        if norm in seen:
-            continue
-        if os.path.exists(norm):
-            out.append(norm)
-            seen.add(norm)
-    return out
+def find_sage_env() -> Dict[str, Optional[str]]:
+    """Locate the local conda env providing `sage`.
 
-
-def find_sage_paths() -> Dict[str, Optional[str]]:
-    local_appdata = os.environ.get("LOCALAPPDATA", "")
-    sage_roots = glob.glob(os.path.join(local_appdata, "SageMath *"))
-
-    bash_candidates = unique_existing(
-        [
-            os.environ.get("SAGE_BASH"),
-            *(os.path.join(root, "runtime", "bin", "bash.exe") for root in sage_roots),
-            shutil.which("bash"),
-        ]
-    )
-    sage_candidates = unique_existing(
-        [
-            os.environ.get("SAGE_RUNNER"),
-            *(os.path.join(root, "runtime", "opt", "sagemath-9.3", "sage") for root in sage_roots),
-            *glob.glob(
-                os.path.join(local_appdata, "SageMath *", "runtime", "opt", "sagemath-*", "sage")
-            ),
-        ]
-    )
-
-    return {
-        "bash": bash_candidates[0] if bash_candidates else None,
-        "sage": sage_candidates[0] if sage_candidates else None,
-    }
+    Looks for conda on PATH, under $HOME/miniforge3, $HOME/miniconda3, or
+    $HOME/anaconda3, and returns the env name (default `sage10.9`, overridable
+    via CTF_SAGE_ENV) plus the conda binary, to be invoked with `conda run`.
+    """
+    env_name = os.environ.get("CTF_SAGE_ENV", "sage10.9")
+    conda_bin = shutil.which("conda")
+    if not conda_bin:
+        for cand in (
+            os.path.join(os.path.expanduser("~"), "miniforge3", "bin", "conda"),
+            os.path.join(os.path.expanduser("~"), "miniconda3", "bin", "conda"),
+            os.path.join(os.path.expanduser("~"), "anaconda3", "bin", "conda"),
+        ):
+            if os.path.exists(cand):
+                conda_bin = cand
+                break
+    return {"conda": conda_bin, "env": env_name}
 
 
 def factor_via_sage(n: int, timeout_seconds: float) -> Dict[str, object]:
     timeout_seconds = min(float(timeout_seconds), MAX_SAGE_TIMEOUT)
-    paths = find_sage_paths()
-    bash_path = paths["bash"]
-    sage_path = paths["sage"]
-    if not bash_path or not sage_path:
+    info = find_sage_env()
+    conda_bin = info["conda"]
+    env_name = info["env"]
+    if not conda_bin:
         return {
             "backend": "sage",
             "status": "unavailable",
-            "reason": "Sage bash runner or sage launcher was not found",
+            "reason": "conda was not found on PATH or under $HOME",
             "factors": [],
         }
 
@@ -176,11 +153,10 @@ def factor_via_sage(n: int, timeout_seconds: float) -> Dict[str, object]:
         "fac = factor(n)\n"
         "print(json.dumps([[str(p), int(e)] for p, e in fac]))\n"
     )
-    command = f"'{sage_path.replace(os.sep, '/')}' -q -c {shlex.quote(sage_code)}"
 
     try:
         proc = subprocess.run(
-            [bash_path, "-lc", command],
+            [conda_bin, "run", "--no-capture-output", "-n", env_name, "sage", "-q", "-c", sage_code],
             capture_output=True,
             text=True,
             timeout=timeout_seconds,

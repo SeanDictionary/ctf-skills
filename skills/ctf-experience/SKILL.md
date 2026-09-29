@@ -1,6 +1,6 @@
 ---
 name: ctf-experience
-description: Use when Codex needs to capture, consult, or update reusable CTF solving experience rather than solve a single challenge from scratch. Best for post-solve retrospectives, recurring pivot signals, dead-loop breakers, tool-order lessons, routing lessons, and cross-challenge heuristics such as when to test Wiener attack, when to treat a protocol as framed before encrypted, or when to prefer structure-driven analysis over blind factoring.
+description: Use when pi needs to capture, consult, or update reusable CTF solving experience rather than solve a single challenge from scratch. Best for post-solve retrospectives, recurring pivot signals, dead-loop breakers, tool-order lessons, routing lessons, and cross-challenge heuristics such as when to test Wiener attack, when to treat a protocol as framed before encrypted, or when to prefer structure-driven analysis over blind factoring.
 ---
 
 # CTF Experience
@@ -20,7 +20,7 @@ Use this skill as the long-lived repository for reusable CTF lessons. Keep the b
 4. Patch the smallest reusable surface.
    Add or refresh the relevant section in [references/patterns.md](references/patterns.md).
 5. Prefer lookup-friendly wording.
-   Write so another Codex instance can quickly scan for trigger signals and immediately act.
+   Write so another pi instance can quickly scan for trigger signals and immediately act.
 
 ## Reading Strategy
 

@@ -1,6 +1,6 @@
 ---
 name: ctf-pwntools
-description: Use when Codex needs focused pwntools workflow guidance for exploit scripting, local or remote tube setup, ELF or libc loading, ROP payload building, leak parsing, shellcraft helpers, or reusable pwn scaffolding. Trigger on mentions of pwntools, `from pwn import *`, process(), remote(), ELF(), ROP(), cyclic, p64/u64, flat(), fit(), SigreturnFrame, fmtstr_payload, shellcraft, or exploit script cleanup.
+description: Use when pi needs focused pwntools workflow guidance for exploit scripting, local or remote tube setup, ELF or libc loading, ROP payload building, leak parsing, shellcraft helpers, or reusable pwn scaffolding. Trigger on mentions of pwntools, `from pwn import *`, process(), remote(), ELF(), ROP(), cyclic, p64/u64, flat(), fit(), SigreturnFrame, fmtstr_payload, shellcraft, or exploit script cleanup.
 ---
 
 # CTF Pwntools
@@ -66,8 +66,8 @@ Keep the rest of the script organized as:
 ## Handoff Rules
 
 - If the blocker is binary understanding, switch to `ctf-pwn-local-analysis` or `ctf-ida`.
-- If the blocker is Linux runtime behavior, loader differences, or live debugging, switch to `wsl-ssh-linux`.
-- If the exploit math is heavy or benefits from a remote Python environment, switch to `ctf-sage`.
+- If the blocker is Linux runtime behavior, loader differences, or live debugging, run the binary directly in the native Linux shell (this is already a Linux host).
+- If the exploit math is heavy or benefits from SageMath, switch to `ctf-sage` (the local `sage10.9` conda env).
 
 ## Output Expectations
 

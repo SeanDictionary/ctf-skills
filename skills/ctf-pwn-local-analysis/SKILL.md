@@ -1,55 +1,57 @@
 ---
 name: ctf-pwn-local-analysis
-description: Use when Codex needs to analyze a local Linux pwn binary, libc, loader, or exploit workflow from Windows. Covers ELF fingerprinting, protection checks, symbol and section inspection, gadget hunting, pwntools-based exploit scaffolding, and deciding when to switch from Windows-native tooling to a Linux shell for runtime debugging. Trigger on mentions of pwn, ELF, libc, ld.so, ROP, ret2libc, GOT/PLT, canary, PIE, checksec, gadgets, cyclic offsets, pwntools, or local binary analysis.
+description: Use when pi needs to analyze a local Linux pwn binary, libc, loader, or exploit workflow. Covers ELF fingerprinting, protection checks, symbol and section inspection, gadget hunting, pwntools-based exploit scaffolding, and deciding when to switch from static analysis to runtime debugging. Trigger on mentions of pwn, ELF, libc, ld.so, ROP, ret2libc, GOT/PLT, canary, PIE, checksec, gadgets, cyclic offsets, pwntools, or local binary analysis.
 ---
 
 # CTF Pwn Local Analysis
 
-Use this skill for local analysis of Linux pwn artifacts on this Windows host.
+Use this skill for local analysis of Linux pwn artifacts on this (Linux) host.
 
 Default behavior:
 
-- Prefer the Windows-native toolchain first.
-- Pull the target binary, matching `libc.so.6`, and relevant helper files into the current workspace before deeper analysis.
-- Use Linux-side execution only when the task truly needs runtime behavior, `gdb`, `gdbserver`, `/proc`, or a real Linux loader.
+- Use the native Linux toolchain first (`file`, `readelf`, `objdump`, `strings`, `gdb`, `ROPgadget`, `checksec`, `pwntools`).
+- Pull the target binary, matching `libc.so.6`, and relevant helper files into the challenge workspace before deeper analysis.
+- Use runtime debugging (`gdb`, `/proc`, real loader) when the task needs actual execution behavior.
+
+## Environment Notes
+
+- `pwntools` is **not** installed. Per AGENTS.md 安装约定，装进 `sage10.9` env（`conda run -n sage10.9 pip install pwntools`）或 `tools/pylibs`，不要全局 `pip install`。
+- `gdb`, `ROPgadget`, `checksec` may be missing too; check with `command -v` first. Per AGENTS.md 安装约定，装进 `tools/bin`（gdb 等二进制）或 `sage10.9` env（ROPgadget/pwntools 等 Python 包），不要全局安装。
+- Native `readelf`, `objdump`, `strings`, `file` come from `binutils`/`file` packages and are usually present.
 
 ## Local Toolchain
 
-Known working tools on this host:
-
-- `file`: `C:\Users\SeanL\AppData\Local\SageMath 9.3\runtime\bin\file.exe`
-- `checksec.exe`: `C:\Users\SeanL\AppData\Local\Programs\Python\Python310\Scripts\checksec.exe`
-- `python`: `C:\Users\SeanL\AppData\Local\Programs\Python\Python310\python.exe`
-- `ROPgadget`: `C:\Users\SeanL\AppData\Local\Programs\Python\Python310\Scripts\ROPgadget`
-- `readelf`, `objdump`, `strings`, `gdb`: `C:\Program Files\minGW64\x86_84-11.3.0-realse-posix-seh\mingw64\bin\`
+- `file`: `file`
+- `checksec`: `pwn checksec`（pwntools 装好后）或 `checksec`（装进 `tools/pylibs`/`sage10.9` env）
+- `python`: `python3`
+- `ROPgadget`: `ROPgadget` (pip) — `ropper` is an alternative if installed
+- `readelf`, `objdump`, `strings`, `gdb`: from PATH (`binutils`, `gdb`)
 
 Notes:
 
-- `pwntools` imports successfully in the local Python 3.10 environment.
-- `ropper` is not installed; use `ROPgadget` instead.
-- Prefer absolute paths if `PATH` resolution behaves inconsistently.
-- Treat local `gdb.exe` as non-default for Linux ELF runtime debugging; switch to a Linux shell if you need to execute the target under a real Linux debugger.
+- Prefer plain command names from PATH; use absolute paths only if PATH resolution is inconsistent.
+- `gdb` is a real Linux debugger here — use it directly for runtime analysis.
 
 ## Workflow
 
-1. Stage the artifacts locally.
+1. Stage the artifacts locally (copy into the challenge folder).
 2. Fingerprint the binary and protections.
 3. Inspect sections, symbols, relocations, and imports.
 4. Hunt gadgets and compute offsets.
 5. Build or refine the exploit with `pwntools`.
-6. Switch to Linux-side debugging only if static analysis is no longer enough.
+6. Drop into `gdb` when static analysis is no longer enough.
 
 ## Quick Start
 
 Use this initial pass on a new binary:
 
-```powershell
-file .\chall
-& 'C:\Users\SeanL\AppData\Local\Programs\Python\Python310\Scripts\checksec.exe' .\chall
-readelf -h .\chall
-readelf -Ws .\chall
-readelf -d .\chall
-strings -a .\chall | Select-String -Pattern 'main|puts|system|/bin/sh|flag|menu'
+```bash
+file ./chall
+checksec --file=./chall          # or: pwn checksec ./chall
+readelf -h ./chall
+readelf -Ws ./chall
+readelf -d ./chall
+strings -a ./chall | grep -E 'main|puts|system|/bin/sh|flag|menu'
 ```
 
 Use this pass to answer:
@@ -64,20 +66,20 @@ Use this pass to answer:
 
 Use `readelf` when you need structured metadata:
 
-```powershell
-readelf -l .\chall
-readelf -S .\chall
-readelf -Ws .\chall
-readelf -r .\chall
-readelf -d .\chall
+```bash
+readelf -l ./chall
+readelf -S ./chall
+readelf -Ws ./chall
+readelf -r ./chall
+readelf -d ./chall
 ```
 
 Use `objdump` when you need disassembly or relocation context:
 
-```powershell
-objdump -d -M intel .\chall
-objdump -R .\chall
-objdump -T .\libc.so.6
+```bash
+objdump -d -M intel ./chall
+objdump -R ./chall
+objdump -T ./libc.so.6
 ```
 
 Practical targets:
@@ -91,17 +93,17 @@ Practical targets:
 
 Use `ROPgadget` for gadget hunting:
 
-```powershell
-ROPgadget --binary .\chall --only "ret|pop|leave"
-ROPgadget --binary .\libc.so.6 --only "ret|pop|leave"
+```bash
+ROPgadget --binary ./chall --only "ret|pop|leave"
+ROPgadget --binary ./libc.so.6 --only "ret|pop|leave"
 ```
 
-Use local `pwntools` for cyclic patterns and address helpers:
+Use `pwntools` for cyclic patterns and address helpers:
 
-```powershell
-python -c "from pwn import *; print(cyclic(200))"
-python -c "from pwn import *; print(cyclic_find(0x6161616c))"
-python -c "from pwn import *; elf = ELF('./chall'); print(hex(elf.plt.get('puts', 0))); print(hex(elf.got.get('puts', 0)))"
+```bash
+python3 -c "from pwn import *; print(cyclic(200))"
+python3 -c "from pwn import *; print(cyclic_find(0x6161616c))"
+python3 -c "from pwn import *; elf = ELF('./chall'); print(hex(elf.plt.get('puts', 0))); print(hex(elf.got.get('puts', 0)))"
 ```
 
 Checklist:
@@ -135,20 +137,23 @@ Keep these pieces separate:
 - final payload assembly
 - local or remote tube selection
 
-## Linux Runtime Fallback
+## Runtime Debugging
 
-Switch to a Linux shell only when needed:
+Drop into `gdb` directly when needed:
 
 - the binary must actually execute under Linux
 - you need `gdb`, `gdbserver`, `strace`, `/proc/<pid>/maps`, or loader behavior
-- the target uses Linux-only syscalls, SUID behavior, namespaces, or seccomp details that static Windows-side inspection cannot validate
+- the target uses Linux-only syscalls, SUID behavior, namespaces, or seccomp details that static inspection cannot validate
 
-When that happens, use `wsl-ssh-linux` or `ctf-sage` as the next layer.
+```bash
+gdb -q ./chall
+# inside gdb: run, break *main, info proc mappings, x/20gx $rsp, etc.
+```
 
-If the skill is running in a restricted sandbox and local tool access, WSL startup, or Linux-side network access fails for environmental reasons, ask the user for global permissions and retry instead of treating the failure as a property of the binary.
+If the skill is running in a restricted sandbox and local tool access or network access fails for environmental reasons, ask the user for global permissions and retry instead of treating the failure as a property of the binary.
 
 ## Notes
 
 - Pull the matching `libc.so.6` whenever a leak-based exploit depends on symbol offsets.
 - Save large disassembly outputs to files instead of flooding the conversation.
-- For quick triage of a suspicious SUID binary, prioritize `file`, `checksec.exe`, `strings`, `readelf -Ws`, and `objdump -d -M intel` before writing an exploit.
+- For quick triage of a suspicious SUID binary, prioritize `file`, `checksec`, `strings`, `readelf -Ws`, and `objdump -d -M intel` before writing an exploit.

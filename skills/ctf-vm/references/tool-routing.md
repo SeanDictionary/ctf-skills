@@ -8,7 +8,7 @@ Use the fastest local tool that answers the current question, then move on.
 
 - Fast port discovery: `ctf-fscan`
 - Precise service detection or selective NSE work: `ctf-nmap`
-- Linux-side commands or scripts from this Windows host: `wsl-ssh-linux`
+- Linux-side commands or scripts: run directly in the native Linux shell
 
 ## Web Enumeration
 

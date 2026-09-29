@@ -1,12 +1,12 @@
 ---
 name: ctf-antsword
-description: Use when Codex needs the local AntSword client bundle for connecting to and managing an already-authorized WebShell session. Trigger on mentions of AntSword, 蚁剑, WebShell client management, or interactive shell management from Windows.
+description: Use when pi needs the AntSword client for connecting to and managing an already-authorized WebShell session. Trigger on mentions of AntSword, 蚁剑, WebShell client management, or interactive shell management.
 ---
 
 # Local Assets
 
-- Tool root: `D:\\Docs\\1.CTF\\0.工具列表\\AntSword-Loader-v4.0.3-win32-x64`
-- GUI executable: `AntSword.exe`
+- Tool root: wherever AntSword is installed.
+- GUI executable: `AntSword` (Linux build) / `AntSword.exe` (Windows). The win32 loader does NOT run on this Linux host.
 
 # Workflow
 
@@ -16,9 +16,11 @@ description: Use when Codex needs the local AntSword client bundle for connectin
 
 # Common Command
 
-```powershell
-cd D:\\Docs\\1.CTF\\0.工具列表\\AntSword-Loader-v4.0.3-win32-x64
-.\AntSword.exe
+```bash
+# AntSword is a Windows/macOS/Linux GUI client; the win32 loader above does NOT run on this Linux host.
+# Install the Linux build of AntSword, or use an alternative webshell manager (e.g. a custom Python handler).
+# If only the Windows build is available, ask the user to run it on a Windows host.
+antsword        # if the Linux build is installed
 ```
 
 # Notes

@@ -1,6 +1,6 @@
 ---
 name: ctf-solver
-description: Use when a CTF challenge is mixed, unclear, or spans multiple domains and Codex should act as a general controller before handing off to a more specific CTF skill. Best for prompts that start from a file, archive, URL, pcap, binary, screenshot, source snippet, challenge text, or partial notes and need challenge classification, workflow selection, evidence tracking, and specialist routing across web, pwn, reverse, crypto, misc, forensics, OSINT, or box-style machine solving.
+description: Use when a CTF challenge is mixed, unclear, or spans multiple domains and pi should act as a general controller before handing off to a more specific CTF skill. Best for prompts that start from a file, archive, URL, pcap, binary, screenshot, source snippet, challenge text, or partial notes and need challenge classification, workflow selection, evidence tracking, and specialist routing across web, pwn, reverse, crypto, misc, forensics, OSINT, or box-style machine solving.
 ---
 
 # CTF Solver

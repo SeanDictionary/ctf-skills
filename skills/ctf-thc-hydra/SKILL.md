@@ -1,12 +1,12 @@
 ---
 name: ctf-thc-hydra
-description: Use when Codex needs Hydra workflow guidance for authorized credential auditing, weak-password checks, lockout testing, or protocol-specific authentication brute force planning. Trigger on mentions of hydra, weak password audit, credential spraying, or protocol logins such as ssh, ftp, http-post-form, smb, redis, or mysql.
+description: Use when pi needs Hydra workflow guidance for authorized credential auditing, weak-password checks, lockout testing, or protocol-specific authentication brute force planning. Trigger on mentions of hydra, weak password audit, credential spraying, or protocol logins such as ssh, ftp, http-post-form, smb, redis, or mysql.
 ---
 
 # Local Assets
 
-- Tool root: `D:\\Docs\\1.CTF\\0.工具列表\\thc-hydra`
-- This directory is source code and documentation, not a ready Windows binary.
+- Per AGENTS.md 安装约定，从源码构建到 `tools/bin/`（`cd tools/src/hydra && ./configure && make && cp hydra ../../bin/`），不要全局 `apt install`。
+- The bundled directory is source code and documentation, not a prebuilt binary.
 - Read `doc.md`, `README`, `INSTALL`, and `hydra.1` when you need module/build details.
 
 # Workflow

@@ -1,6 +1,6 @@
 ---
 name: ctf-vm
-description: Use when Codex should autonomously enumerate and solve Linux-focused CTF machines or service-style targets such as HackMyVM, Hack The Box, VulnHub, or internal practice labs. Best for workflows that start from an IP, URL, service, credential, binary, or partial foothold and need recon, web testing, exploit chaining, Linux privilege escalation, note-taking, and writeup generation. Do not use for unauthorized targets or pure crypto-only tasks unless the user narrows the scope.
+description: Use when pi should autonomously enumerate and solve Linux-focused CTF machines or service-style targets such as HackMyVM, Hack The Box, VulnHub, or internal practice labs. Best for workflows that start from an IP, URL, service, credential, binary, or partial foothold and need recon, web testing, exploit chaining, Linux privilege escalation, note-taking, and writeup generation. Do not use for unauthorized targets or pure crypto-only tasks unless the user narrows the scope.
 ---
 
 # CTF VM

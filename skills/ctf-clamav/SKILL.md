@@ -1,12 +1,12 @@
 ---
 name: ctf-clamav
-description: Use when Codex needs the local ClamAV packages for malware scanning or package deployment on Linux hosts. Trigger on mentions of ClamAV, clamscan, 病毒查杀, or package-based deployment of a signature scanner on a Linux target.
+description: Use when pi needs the local ClamAV packages for malware scanning or package deployment on Linux hosts. Trigger on mentions of ClamAV, clamscan, 病毒查杀, or package-based deployment of a signature scanner on a Linux target.
 ---
 
 # Local Assets
 
-- Tool root: `D:\\Docs\\1.CTF\\0.工具列表\\clamav`
-- Packages: `clamav-1.5.1.linux.x86_64.deb`, `clamav-1.5.1.linux.x86_64.rpm`
+- Per AGENTS.md 安装约定，安装到 `tools/`（预编译包/源码构建）或 `sage10.9` env，不要全局 `apt install`。
+- Packages: `clamav-1.5.1.linux.x86_64.deb`, `clamav-1.5.1.linux.x86_64.rpm` (offline fallback).
 
 # Workflow
 
@@ -16,5 +16,5 @@ description: Use when Codex needs the local ClamAV packages for malware scanning
 
 # Notes
 
-- This directory contains install packages, not a ready Windows binary.
+- This directory contains install packages (.deb/.rpm), not a prebuilt binary.
 - Deployment to a remote Linux host may require transfer plus package installation privileges.

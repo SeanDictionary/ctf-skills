@@ -1,13 +1,13 @@
 ---
 name: ctf-hema-webshell
-description: Use when Codex needs the 河马 WebShell scanner package for Windows or Linux webshell scanning and cleanup planning on a Web root. Trigger on mentions of 河马WebShell, webshell查杀, backdoor scan, or malicious PHP/ASPX file hunting in a site directory.
+description: Use when pi needs the 河马 WebShell scanner package for Windows or Linux webshell scanning and cleanup planning on a Web root. Trigger on mentions of 河马WebShell, webshell查杀, backdoor scan, or malicious PHP/ASPX file hunting in a site directory.
 ---
 
 # Local Assets
 
-- Tool root: `D:\\Docs\\1.CTF\\0.工具列表\\河马WebShell`
-- Windows package: `HmSetup.zip`
-- Linux package: `hm-linux-amd64.tgz`
+- Tool root: wherever the 河马 package is unpacked.
+- Windows package: `HmSetup.zip` (Windows only).
+- Linux package: `hm-linux-amd64.tgz` (use this on this Linux host).
 - Docs: `doc_win.md`, `doc_linux.md`
 
 # Workflow

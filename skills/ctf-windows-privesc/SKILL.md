@@ -1,11 +1,11 @@
 ---
 name: ctf-windows-privesc
-description: Use when Codex needs the local Windows 提权 tool set for privilege-escalation enumeration or exploit helpers such as winPEAS and JuicyPotato on an authorized Windows target. Trigger on mentions of 提权, winPEAS, JuicyPotato, or Windows local privesc triage.
+description: Use when pi needs the local Windows 提权 tool set for privilege-escalation enumeration or exploit helpers such as winPEAS and JuicyPotato on an authorized Windows target. Trigger on mentions of 提权, winPEAS, JuicyPotato, or Windows local privesc triage.
 ---
 
 # Local Assets
 
-- Tool root: `D:\\Docs\\1.CTF\\0.工具列表\\提权`
+- Tool root: N/A on this Linux host (these are Windows-target binaries).
 - Files: `winPEAS.bat`, `winPEASx64.exe`, `JuicyPotato.exe`
 
 # Workflow
@@ -16,11 +16,11 @@ description: Use when Codex needs the local Windows 提权 tool set for privileg
 
 # Common Commands
 
-```powershell
-cd D:\\Docs\\1.CTF\\0.工具列表\\提权
-.\winPEAS.bat
-.\winPEASx64.exe
-.\JuicyPotato.exe -h
+```bash
+# These are Windows-target privilege-escalation helpers; they run ON a Windows target, not on this Linux host.
+# Transfer the matching binary (winPEASx64.exe / JuicyPotato.exe) to the Windows target and execute there.
+# On this Linux host, use linpeas / linpeas.sh for Linux privesc enumeration instead.
+# winPEAS.bat / winPEASx64.exe / JuicyPotato.exe -h
 ```
 
 # Notes

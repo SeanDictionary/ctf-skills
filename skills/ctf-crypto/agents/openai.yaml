@@ -1,7 +1,0 @@
-interface:
-  display_name: "CTF Crypto"
-  short_description: "Handle crypto and encoding challenges"
-  default_prompt: "Use $ctf-crypto to identify the primitive, test the likely weakness, and build a reproducible solve path."
-
-policy:
-  allow_implicit_invocation: true

@@ -50,7 +50,7 @@ Treat blockchain problems as state-machine exploits, not just code review. Recon
 - If the challenge includes a dapp or exposed API, pair with `$ctf-web` once the off-chain surface matters.
 - If the task is bytecode-only or relies on unusual dispatch or initcode behavior, pair with `$ctf-reverse`.
 - If the core break is signature math, finite-field recovery, or algebra around nonce generation, pair with `$ctf-crypto` and `ctf-sage`.
-- If Linux-side Solidity, Foundry, or scripting workflow is easier from WSL, pair with `wsl-ssh-linux`.
+- If Linux-side Solidity, Foundry, or scripting workflow is needed, run it directly in the native Linux shell.
 
 ## Output Expectations
 

@@ -1,7 +1,0 @@
-interface:
-  display_name: "CTF Misc"
-  short_description: "Handle mixed-format CTF tasks"
-  default_prompt: "Use $ctf-misc to unpack a miscellaneous challenge, identify the hidden domain, and solve it systematically."
-
-policy:
-  allow_implicit_invocation: true

@@ -13,9 +13,9 @@ from pathlib import Path
 
 
 DEFAULT_TSHARK_CANDIDATES = (
-    r"D:\Wireshark\tshark.exe",
-    r"C:\Program Files\Wireshark\tshark.exe",
-    r"C:\Program Files (x86)\Wireshark\tshark.exe",
+    "tshark",
+    "/usr/bin/tshark",
+    "/usr/sbin/tshark",
 )
 
 
@@ -46,7 +46,7 @@ def find_tshark(explicit: str | None) -> str:
             return candidate
 
     raise FileNotFoundError(
-        "Could not find tshark.exe. Pass --tshark or set TSHARK_PATH."
+        "Could not find tshark. Install it into tools/bin/ (per AGENTS.md, no global install), pass --tshark, or set TSHARK_PATH."
     )
 
 
@@ -260,7 +260,7 @@ def parse_args() -> argparse.Namespace:
         default=25,
         help="Maximum number of HTTP, DNS, or TLS rows to include per section",
     )
-    parser.add_argument("--tshark", help="Explicit path to tshark.exe")
+    parser.add_argument("--tshark", help="Explicit path to the tshark binary")
     return parser.parse_args()
 
 

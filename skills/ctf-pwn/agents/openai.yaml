@@ -1,7 +1,0 @@
-interface:
-  display_name: "CTF Pwn"
-  short_description: "Handle pwn and binary exploitation tasks"
-  default_prompt: "Use $ctf-pwn to triage a binary, reason about mitigations, and drive toward a working exploit plan."
-
-policy:
-  allow_implicit_invocation: true

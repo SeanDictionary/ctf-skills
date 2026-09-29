@@ -1,11 +1,11 @@
 ---
 name: ctf-awd-watchbird
-description: Use when Codex needs the local Watchbird AWD PHP WAF package for installation, configuration, response inspection, flag masking, UI control, or AWD traffic logging on a PHP Web directory. Trigger on mentions of watchbird, PHP AWD WAF, `watchbird.php`, or `waf.so` deployment.
+description: Use when pi needs the local Watchbird AWD PHP WAF package for installation, configuration, response inspection, flag masking, UI control, or AWD traffic logging on a PHP Web directory. Trigger on mentions of watchbird, PHP AWD WAF, `watchbird.php`, or `waf.so` deployment.
 ---
 
 # Local Assets
 
-- Tool root: `D:\\Docs\\1.CTF\\0.工具列表\\awd-watchbird`
+- Tool root: wherever the watchbird package is unpacked (deploy into the target Web root).
 - Files: `watchbird.php`, `waf.so`, `doc.md`
 
 # Workflow

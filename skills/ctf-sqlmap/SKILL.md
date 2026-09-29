@@ -1,16 +1,16 @@
 ---
 name: ctf-sqlmap
-description: Use when Codex needs the local sqlmap setup for authorized SQL injection detection, parameter testing, raw HTTP request replay, tamper-assisted payload shaping, database enumeration, or controlled extraction in CTF and lab targets. Trigger on mentions of sqlmap, SQL injection automation, raw request files, tamper scripts, or sqlmap API usage.
+description: Use when pi needs the local sqlmap setup for authorized SQL injection detection, parameter testing, raw HTTP request replay, tamper-assisted payload shaping, database enumeration, or controlled extraction in CTF and lab targets. Trigger on mentions of sqlmap, SQL injection automation, raw request files, tamper scripts, or sqlmap API usage.
 ---
 
 # Local Assets
 
-- Tool root: `D:\\Docs\\1.CTF\\0.工具列表\\sqlmap`
-- Entrypoint: `python .\\sqlmap.py`
-- API entrypoint: `python .\\sqlmapapi.py`
-- Request templates: `GET.txt`, `POST.txt`
-- Config: `sqlmap.conf`
-- Read `README.md` and `doc\\` when you need option details.
+- Tool root: wherever `sqlmap` is installed (put it on PATH, or `cd` into its directory).
+- Entrypoint: `sqlmap` (CLI on PATH) or `python3 ./sqlmap.py`.
+- API entrypoint: `sqlmap-api` or `python3 ./sqlmapapi.py`.
+- Request templates: `GET.txt`, `POST.txt`.
+- Config: `sqlmap.conf`.
+- Read `README.md` and the `doc/` dir when you need option details.
 
 # Workflow
 
@@ -23,15 +23,15 @@ description: Use when Codex needs the local sqlmap setup for authorized SQL inje
 
 # Common Commands
 
-```powershell
-cd D:\\Docs\\1.CTF\\0.工具列表\\sqlmap
-python .\\sqlmap.py -h
-python .\\sqlmap.py -u "http://target/item.php?id=1" -p id --batch
-python .\\sqlmap.py -u "http://target/item.php?id=1" -p id --dbs
-python .\\sqlmap.py -r .\\POST.txt -p username --batch --current-user
-python .\\sqlmap.py -r .\\GET.txt --level 3 --risk 2 --threads 4
-python .\\sqlmap.py -r request.txt --cookie="PHPSESSID=xxxx" --tamper=space2comment --dump
-python .\\sqlmapapi.py -s -H 127.0.0.1 -p 8775
+```bash
+# sqlmap should be on PATH (or run: python3 ./sqlmap.py ...)
+sqlmap -h
+sqlmap -u "http://target/item.php?id=1" -p id --batch
+sqlmap -u "http://target/item.php?id=1" -p id --dbs
+sqlmap -r ./POST.txt -p username --batch --current-user
+sqlmap -r ./GET.txt --level 3 --risk 2 --threads 4
+sqlmap -r request.txt --cookie="PHPSESSID=xxxx" --tamper=space2comment --dump
+sqlmap-api -s -H 127.0.0.1 -p 8775
 ```
 
 # Notes

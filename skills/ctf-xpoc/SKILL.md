@@ -1,13 +1,13 @@
 ---
 name: ctf-xpoc
-description: Use when Codex needs the local xpoc executable for Chaitin cloud/local POC listing, pulling, and target scanning from Windows. Trigger on mentions of xpoc, quick POC sweep, Chaitin POC manager, or cloud POC scanning.
+description: Use when pi needs the xpoc executable for Chaitin cloud/local POC listing, pulling, and target scanning. Trigger on mentions of xpoc, quick POC sweep, Chaitin POC manager, or cloud POC scanning.
 ---
 
 # Local Assets
 
-- Tool root: `D:\\Docs\\1.CTF\\0.工具列表\\xpoc`
-- Binary: `D:\\Docs\\1.CTF\\0.工具列表\\xpoc\\xpoc.exe`
-- Read `doc.md` for pull/list behavior and batch input modes.
+- Tool root: wherever `xpoc` is installed (put it on PATH, or `cd` into its directory).
+- Binary: `xpoc` (Linux build) / `xpoc.exe` (Windows).
+- Read the bundled `doc.md` for pull/list behavior and batch input modes.
 
 # Workflow
 
@@ -17,13 +17,13 @@ description: Use when Codex needs the local xpoc executable for Chaitin cloud/lo
 
 # Common Commands
 
-```powershell
-cd D:\\Docs\\1.CTF\\0.工具列表\\xpoc
-.\xpoc.exe list -a
-.\xpoc.exe pull
-.\xpoc.exe -t https://example.com -o result.html
-.\xpoc.exe -g web.list -t https://example.com
-.\xpoc.exe -i targets.txt
+```bash
+# xpoc should be on PATH or run from its install dir (Linux build)
+xpoc list -a
+xpoc pull
+xpoc -t https://example.com -o result.html
+xpoc -g web.list -t https://example.com
+xpoc -i targets.txt
 ```
 
 # Notes

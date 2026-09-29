@@ -1,6 +1,6 @@
 ---
 name: ctf-box
-description: Use when Codex should autonomously enumerate and solve lab-style box targets such as HackMyVM, Hack The Box, VulnHub, or internal practice machines. Best for workflows that start from an IP, URL, service, credential, binary, or partial foothold and need recon, web testing, exploit chaining, Linux privilege escalation, note-taking, and writeup generation. Use this for intentional box-solves rather than broader penetration, incident response, or AWD host scenarios.
+description: Use when pi should autonomously enumerate and solve lab-style box targets such as HackMyVM, Hack The Box, VulnHub, or internal practice machines. Best for workflows that start from an IP, URL, service, credential, binary, or partial foothold and need recon, web testing, exploit chaining, Linux privilege escalation, note-taking, and writeup generation. Use this for intentional box-solves rather than broader penetration, incident response, or AWD host scenarios.
 ---
 
 # CTF Box

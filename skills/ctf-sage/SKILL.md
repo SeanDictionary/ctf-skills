@@ -1,107 +1,122 @@
 ---
 name: ctf-sage
-description: Use when you need SageMath or CTF Python tooling in the lab, specifically the conda environment named 'sage' on sean@172.17.122.193. Includes remote execution patterns that activate 'conda env sage' and run Sage/Python code using SageMath, pycryptodome, and pwntools.
+description: "Use when you need SageMath or CTF Python tooling in the lab, specifically the local conda environment `sage10.9` (SageMath 10.9 + pycryptodome). Covers non-interactive execution of Sage and Python (pycryptodome) code for factoring, lattice, ECC, polynomial and other crypto/math work. Note: pwntools is NOT installed in this env."
 ---
 
 # CTF Sage
 
-Use this skill when the task needs the remote `sage` conda environment on `sean@172.17.122.193`.
+Use this skill when the task needs the local `sage10.9` conda environment.
 
 Assume the normal path is:
 
-- The Windows host can SSH to `sean@172.17.122.193` as `sean`.
-- The remote machine has a conda environment named `sage`.
-- The preferred execution path is `scripts\\ssh-sage.ps1`.
-
-If basic SSH connectivity is questionable, use `wsl-ssh-linux` first and confirm the host is reachable before debugging Sage-specific behavior.
+- The agent runs on a Linux host with miniforge3 installed under `/root/miniforge3`.
+- There is a conda environment named `sage10.9` providing SageMath 10.9 and `pycryptodome`.
+- `pwntools` is **not** installed in `sage10.9`; for pwn exploits use `ctf-pwntools` workflow or install pwntools first.
+- The preferred execution path is `scripts/run-sage.sh` or `conda run -n sage10.9 ...`.
 
 ## Quick Start
 
 Sanity-check the environment:
 
-```powershell
-$payload = @"
-python - <<'PY'
-import Crypto, pwn
-print('ok')
+```bash
+conda run --no-capture-output -n sage10.9 python - <<'PY'
+import Crypto
+print('Crypto', Crypto.__version__)
 PY
-"@
-powershell -ExecutionPolicy Bypass -File C:\\Users\\SeanL\\.codex\\skills\\ctf-sage\\scripts\\ssh-sage.ps1 -Payload $payload
 ```
 
 Run a small Sage command:
 
-```powershell
-$payload = 'sage -q -c "print(factor(2026))"'
-powershell -ExecutionPolicy Bypass -File C:\\Users\\SeanL\\.codex\\skills\\ctf-sage\\scripts\\ssh-sage.ps1 -Payload $payload
+```bash
+conda run --no-capture-output -n sage10.9 sage -q -c "print(factor(2026))"
+```
+
+Or via the helper script (resolves conda for you):
+
+```bash
+scripts/run-sage.sh 'sage -q -c "print(factor(2026))"'
 ```
 
 ## Workflow
 
-1. Confirm SSH works to the host.
-2. Put the real work in `-Payload` and execute it through `scripts\\ssh-sage.ps1`.
+1. Confirm the `sage10.9` env is reachable (`conda env list`).
+2. Put the real work in a payload and execute it through `conda run -n sage10.9` or `run-sage.sh`.
 3. Prefer non-interactive snippets, here-docs, and one-shot scripts.
-4. Use `scp` plus a remote execution command when the payload becomes large.
+4. For large payloads, write a `.sage`/`.py` file and run it with `run-sage.sh -f`.
 
 ## Patterns
 
-### Run Multi-Line Python (pycryptodome / pwntools)
+### Run Multi-Line Python (pycryptodome)
 
-Use a here-doc inside the payload (non-interactive):
+Use a here-doc (non-interactive):
 
-```powershell
-$payload = @"
-python - <<'PY'
-from Crypto.Util.number import *
-from pwn import *
-print('ready')
+```bash
+conda run --no-capture-output -n sage10.9 python - <<'PY'
+from Crypto.Util.number import GCD, inverse
+print('ready', GCD(2026, 1013))
 PY
-"@
-powershell -ExecutionPolicy Bypass -File C:\\Users\\SeanL\\.codex\\skills\\ctf-sage\\scripts\\ssh-sage.ps1 -Payload $payload
 ```
 
 ### Run Multi-Line Sage
 
-```powershell
-$payload = @"
-sage -q - <<'SAGE'
-R.<x> = PolynomialRing(ZZ)
-print((x^2+1).factor())
+```bash
+conda run --no-capture-output -n sage10.9 sage -q - <<'SAGE'
+R = PolynomialRing(ZZ, 'x')
+x = R.gen()
+print((x^2 + 1).factor())
 SAGE
-"@
-powershell -ExecutionPolicy Bypass -File C:\\Users\\SeanL\\.codex\\skills\\ctf-sage\\scripts\\ssh-sage.ps1 -Payload $payload
+```
+
+### Run A Script File
+
+```bash
+# .sage file -> automatically uses `sage`; .py -> `python`
+scripts/run-sage.sh -f ./solve.sage
+scripts/run-sage.sh -f ./solve.py
+```
+
+Or directly:
+
+```bash
+conda run --no-capture-output -n sage10.9 sage -q ./solve.sage
+conda run --no-capture-output -n sage10.9 python ./solve.py
 ```
 
 ### Copy In An Exploit Or Script
 
-Use Windows `scp`, then run it via `ssh-sage.ps1`:
+Files are local; just run them in place:
 
-```powershell
-scp .\\solve.py sean@172.17.122.193:/tmp/solve.py
-powershell -ExecutionPolicy Bypass -File C:\\Users\\SeanL\\.codex\\skills\\ctf-sage\\scripts\\ssh-sage.ps1 -Payload "python /tmp/solve.py"
+```bash
+cp /path/to/solve.py ./solve.py
+conda run --no-capture-output -n sage10.9 python ./solve.py
 ```
 
 ## Script
 
-### `scripts\\ssh-sage.ps1`
+### `scripts/run-sage.sh`
 
-Execute a payload on the remote host by:
+Execute a payload in the local `sage10.9` conda env by:
 
-1. Sourcing `~/.bashrc` (best-effort).
-2. Sourcing a common `conda.sh` location if needed (`miniforge3`, `miniconda3`, `anaconda3`, `mambaforge`).
-3. Activating conda: `conda activate sage`.
-4. Running your payload.
+1. Locating `conda` (`$CONDA_EXE`, PATH, or `~/miniforge3/bin/conda`).
+2. Running the payload via `conda run --no-capture-output -n sage10.9 ...`.
+3. Supporting `-f <file>` (auto `.sage`→`sage`, `.py`→`python`) and `-` (stdin).
 
-The script base64-wraps the remote bash block before sending it over SSH, which keeps multi-line payloads much more reliable than ad hoc quoting.
+The env name can be overridden with `CTF_SAGE_ENV` if a different Sage env exists.
+
+## Environment Notes
+
+- `sage` is not on the global PATH; always go through `conda run -n sage10.9` or activate the env.
+- `pycryptodome` is available; `gmpy2`/`sympy` may or may not be present — check before relying on them.
+- This is a Linux-native environment; there is no WSL or remote SSH hop.
 
 ## Restricted Sandbox Fallback
 
-If this skill is running inside a restricted sandbox and SSH or remote environment setup fails because the sandbox blocks network access, SSH, or access to the needed host tools, do not assume the lab is broken.
+If this skill is running inside a restricted sandbox and `conda`/network access fails because the sandbox blocks them, do not assume the lab is broken.
 
 Ask the user for global permissions, explain that the failure is environmental, and retry the same command after permissions are expanded.
 
 ## Safety Notes
 
 - Prefer non-interactive commands to avoid hanging the session.
-- If you truly need an interactive TTY tool such as `gdb` or `tmux`, pause and confirm with the user first.
-- If the command only needs generic Linux shell access and not the `sage` environment, use `wsl-ssh-linux` instead.
+- If you truly need an interactive TTY tool such as `gdb`, pause and confirm with the user first.
+- If the command only needs generic Sage/Python and not the `sage10.9` env, still prefer the env to keep dependencies consistent.

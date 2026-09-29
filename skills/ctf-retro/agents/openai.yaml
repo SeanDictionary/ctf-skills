@@ -1,7 +1,0 @@
-interface:
-  display_name: "CTF Retro"
-  short_description: "Turn solves into AI skill improvements"
-  default_prompt: "Use $ctf-retro after a solved challenge or major pivot to extract reusable AI-facing lessons, avoid future dead loops, and directly patch the smallest relevant CTF skill when the lesson clearly generalizes."
-
-policy:
-  allow_implicit_invocation: true

@@ -29,12 +29,12 @@
 
 ## Common TShark Patterns
 
-```powershell
-& 'D:\Wireshark\tshark.exe' -r '.\Traffic.pcapng' -q -z io,phs
-& 'D:\Wireshark\tshark.exe' -r '.\Traffic.pcapng' -q -z endpoints,ip -z conv,tcp -z conv,udp
-& 'D:\Wireshark\tshark.exe' -r '.\Traffic.pcapng' -Y 'http.request' -T fields -e frame.number -e ip.src -e http.host -e http.request.uri
-& 'D:\Wireshark\tshark.exe' -r '.\Traffic.pcapng' -Y 'dns.flags.response == 0' -T fields -e frame.number -e dns.qry.name
-& 'D:\Wireshark\tshark.exe' -r '.\Traffic.pcapng' -q -z follow,tcp,ascii,0
+```bash
+tshark -r ./Traffic.pcapng -q -z io,phs
+tshark -r ./Traffic.pcapng -q -z endpoints,ip -z conv,tcp -z conv,udp
+tshark -r ./Traffic.pcapng -Y 'http.request' -T fields -e frame.number -e ip.src -e http.host -e http.request.uri
+tshark -r ./Traffic.pcapng -Y 'dns.flags.response == 0' -T fields -e frame.number -e dns.qry.name
+tshark -r ./Traffic.pcapng -q -z follow,tcp,ascii,0
 ```
 
 ## Evidence Checklist

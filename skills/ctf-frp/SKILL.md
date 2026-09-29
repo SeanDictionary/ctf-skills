@@ -1,27 +1,27 @@
 ---
 name: ctf-frp
-description: Use when Codex needs the local frp package for internal tunneling, reverse proxying, port forwarding, dashboard configuration, or temporary exposure of internal services. Trigger on mentions of frp, frpc, frps, reverse tunnel, port forward, or intranet penetration.
+description: Use when pi needs the local frp package for internal tunneling, reverse proxying, port forwarding, dashboard configuration, or temporary exposure of internal services. Trigger on mentions of frp, frpc, frps, reverse tunnel, port forward, or intranet penetration.
 ---
 
 # Local Assets
 
-- Tool root: `D:\\Docs\\1.CTF\\0.工具列表\\frp`
+- Tool root: wherever `frp` is installed (put it on PATH, or `cd` into its directory).
 - Bundles: `frp_0.67.0_windows_amd64`, `frp_0.67.0_linux_amd64`
 - Docs: `common.md`, `client-configures.md`, `server-configures.md`
 
 # Workflow
 
 - Decide whether the user needs server (`frps`) or client (`frpc`) mode.
-- Choose the Windows or Linux bundle that matches the current host.
+- On this Linux host, prefer the Linux bundle (`frp_*_linux_amd64`).
 - Prefer config-file based runs instead of long inline commands.
 - Keep bind ports, auth, and dashboard exposure scoped tightly.
 
 # Common Commands
 
-```powershell
-cd D:\\Docs\\1.CTF\\0.工具列表\\frp\\frp_0.67.0_windows_amd64
-.\frps.exe -c .\frps.toml
-.\frpc.exe -c .\frpc.toml
+```bash
+# frp should be on PATH or run from its install dir (Linux amd64 build)
+frps -c ./frps.toml
+frpc -c ./frpc.toml
 ```
 
 # Notes

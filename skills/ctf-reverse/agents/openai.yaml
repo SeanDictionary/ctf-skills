@@ -1,7 +1,0 @@
-interface:
-  display_name: "CTF Reverse"
-  short_description: "Handle reverse engineering challenges"
-  default_prompt: "Use $ctf-reverse to analyze a binary or script, recover the core logic, and extract the answer path."
-
-policy:
-  allow_implicit_invocation: true

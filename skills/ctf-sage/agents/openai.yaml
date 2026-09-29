@@ -1,4 +1,0 @@
-interface:
-  display_name: "CTF Sage"
-  short_description: "SageMath + pwntools/crypto runner"
-  default_prompt: "When SageMath or CTF Python tooling is needed, run commands on sean@172.17.122.193 inside conda env 'sage'. Use scripts/ssh-sage.ps1 for reliable non-interactive execution; do not rely on WSL being available."

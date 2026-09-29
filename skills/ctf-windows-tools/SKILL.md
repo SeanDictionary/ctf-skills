@@ -1,11 +1,11 @@
 ---
 name: ctf-windows-tools
-description: Use when Codex needs the local Windows exploit helper bundle for Jenkins-related tooling such as ysoserial, jenkins-cli, or included CVE executables. Trigger on mentions of `ysoserial`, `jenkins-cli`, Jenkins exploit helpers, or the `windows_tools` directory.
+description: Use when pi needs the local Windows exploit helper bundle for Jenkins-related tooling such as ysoserial, jenkins-cli, or included CVE executables. Trigger on mentions of `ysoserial`, `jenkins-cli`, Jenkins exploit helpers, or the `windows_tools` directory.
 ---
 
 # Local Assets
 
-- Tool root: `D:\\Docs\\1.CTF\\0.工具列表\\windows_tools`
+- Tool root: wherever the `windows_tools` bundle is unpacked.
 - Files: `ysoserial-all.jar`, `jenkins-cli.jar`, `CVE_2015_8103.exe`, `CVE_2017_1000353.exe`, `CVE_2019_1003000.exe`, `CVE_2019_1003005.exe`
 
 # Workflow
@@ -16,10 +16,11 @@ description: Use when Codex needs the local Windows exploit helper bundle for Je
 
 # Common Commands
 
-```powershell
-cd D:\\Docs\\1.CTF\\0.工具列表\\windows_tools
-java -jar .\ysoserial-all.jar
-java -jar .\jenkins-cli.jar -s http://target/ help
+```bash
+# java is required on PATH (check: command -v java)
+cd ./windows_tools   # or wherever the jars live
+java -jar ./ysoserial-all.jar
+java -jar ./jenkins-cli.jar -s http://target/ help
 ```
 
 # Notes

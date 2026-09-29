@@ -1,7 +1,0 @@
-interface:
-  display_name: "CTF Blockchain"
-  short_description: "Handle blockchain and smart-contract CTF challenges"
-  default_prompt: "Use $ctf-blockchain to model the chain state, identify the vulnerable contract behavior, and build a reproducible exploit or solve path."
-
-policy:
-  allow_implicit_invocation: true

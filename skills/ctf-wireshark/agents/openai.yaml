@@ -1,4 +1,0 @@
-interface:
-  display_name: "CTF Wireshark"
-  short_description: "Analyze PCAP traffic with Wireshark/TShark."
-  default_prompt: "Use $ctf-wireshark to analyze this PCAP with local Wireshark and TShark automation."

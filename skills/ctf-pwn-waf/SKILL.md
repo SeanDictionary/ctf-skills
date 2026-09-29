@@ -1,11 +1,11 @@
 ---
 name: ctf-pwn-waf
-description: Use when Codex needs the local pwn_waf toolset for AWD PWN traffic capture, traffic forwarding, or defensive wrapper deployment around a pwn service. Trigger on mentions of pwn_waf, AWD PWN defense, catch mode, forward mode, or ptrace-based traffic logging for a pwn binary.
+description: Use when pi needs the local pwn_waf toolset for AWD PWN traffic capture, traffic forwarding, or defensive wrapper deployment around a pwn service. Trigger on mentions of pwn_waf, AWD PWN defense, catch mode, forward mode, or ptrace-based traffic logging for a pwn binary.
 ---
 
 # Local Assets
 
-- Tool root: `D:\\Docs\\1.CTF\\0.工具列表\\pwn_waf`
+- Tool root: wherever the `pwn_waf` source tree is cloned (build with `make`).
 - Docs: `doc.md`, `README.md`
 - This directory is source-based and centered around `make`-built modes such as `catch`, `i0gan`, `forward`, and `forward_multi`.
 

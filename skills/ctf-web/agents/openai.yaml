@@ -1,7 +1,0 @@
-interface:
-  display_name: "CTF Web"
-  short_description: "Handle web-focused CTF challenges"
-  default_prompt: "Use $ctf-web to solve a web challenge, test the likely bug classes, and keep proof for the exploit chain."
-
-policy:
-  allow_implicit_invocation: true
