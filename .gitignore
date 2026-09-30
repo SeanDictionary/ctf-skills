@@ -7,3 +7,7 @@
 #   3. 每暴露一个外部技能，在此追加一行 `skills/<技能名>`
 .external/
 skills/geo-sleuth
+
+# 经验总结库：仅本地共享（软链对各比赛可见），不入库不随仓库同步；
+# 新机器 clone 后文件缺失属正常，复盘写入时会自动重建（见 ctf-experience SKILL.md）
+skills/ctf-experience/references/patterns.md

@@ -19,6 +19,8 @@ Use this skill as the long-lived repository for reusable CTF lessons. Keep the b
    Use the schema `Signal -> Why It Matters -> Default Action -> Stop Condition`.
 4. Patch the smallest reusable surface.
    Add or refresh the relevant section in [references/patterns.md](references/patterns.md).
+   This file is local-only (gitignored): on a fresh clone it will not exist — create it
+   (with a minimal header) before the first append; missing file is normal, not an error.
 5. Prefer lookup-friendly wording.
    Write so another pi instance can quickly scan for trigger signals and immediately act.
 
